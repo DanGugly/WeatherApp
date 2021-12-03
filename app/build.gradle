@@ -40,6 +40,11 @@ dependencies {
     //Moshi adapter to use kotlin classes
     implementation "com.squareup.moshi:moshi-kotlin:1.12.0"
 
+    //Ok http implementation, add header to response or object
+    implementation 'com.squareup.okhttp3:okhttp:5.0.0-alpha.2'
+    // Logg error or response
+    implementation 'com.squareup.okhttp3:logging-interceptor:4.9.0'
+
     // Retrofit library
     implementation 'com.squareup.retrofit2:retrofit:2.9.0'
     //Android RX library
