@@ -35,6 +35,10 @@ dependencies {
 
     // Add moshi converter
     implementation 'com.squareup.moshi:moshi:1.12.0'
+    //Adapter to parse json data to moshi
+    implementation "com.squareup.retrofit2:converter-moshi:2.4.0"
+    //Moshi adapter to use kotlin classes
+    implementation "com.squareup.moshi:moshi-kotlin:1.12.0"
 
     // Retrofit library
     implementation 'com.squareup.retrofit2:retrofit:2.9.0'
