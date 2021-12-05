@@ -1,8 +1,10 @@
 package com.example.weatherapp.adapter
 
+import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
+import com.example.weatherapp.R
 import com.example.weatherapp.model.Forecast
 
 class ForecastAdapter(
@@ -17,7 +19,12 @@ class ForecastAdapter(
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ForecastViewHolder {
-        TODO("Not yet implemented")
+        val forecastView = LayoutInflater.from(parent.context).inflate(
+            R.layout.forecast_items,
+            parent,
+            false
+        )
+        return ForecastViewHolder(forecastView)
     }
 
     override fun onBindViewHolder(holder: ForecastViewHolder, position: Int) {
