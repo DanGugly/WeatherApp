@@ -36,6 +36,7 @@ class ForecastAdapter(
         holder.forecastMinTemp.text = forecast.main.tempMin.toString()
         holder.forecastMaxTemp.text = forecast.main.tempMax.toString()
         holder.forecastFeelsTemp.text = forecast.main.feelsLike.toString()
+        holder.forecastDateTime.text = forecast.dtTxt
         holder.forecastWeatherDesc.text = forecast.weather[weatherDesc].toString()
         //holder.forecastWeatherIcon.setImageBitmap(forecast.weather[weatherIcon].toString())
     }
@@ -55,6 +56,7 @@ class ForecastViewHolder(itemView:View): RecyclerView.ViewHolder(itemView){
     val forecastMinTemp : TextView = itemView.findViewById(R.id.forecast_mintemp)
     val forecastMaxTemp : TextView = itemView.findViewById(R.id.forecast_maxtemp)
     val forecastFeelsTemp : TextView = itemView.findViewById(R.id.forecast_feelstemp)
+    val forecastDateTime : TextView = itemView.findViewById(R.id.forecast_datetime)
     val forecastWeatherDesc : TextView = itemView.findViewById(R.id.weather_description)
-    val forecastWeatherIcon : ImageView = itemView.findViewById(R.id.weather_icon)
+    //val forecastWeatherIcon : ImageView = itemView.findViewById(R.id.weather_icon)
 }

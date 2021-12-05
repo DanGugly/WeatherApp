@@ -7,7 +7,7 @@ import com.squareup.moshi.JsonClass
 @JsonClass(generateAdapter = true)
 data class Forecast(
     @Json(name = "clouds")
-    val clouds: Clouds,
+    val clouds: Clouds?,
     @Json(name = "dt")
     val dt: Int,
     @Json(name = "dt_txt")
@@ -15,9 +15,9 @@ data class Forecast(
     @Json(name = "main")
     val main: Main,
     @Json(name = "pop")
-    val pop: Int,
+    val pop: Double,
     @Json(name = "rain")
-    val rain: Rain,
+    val rain: Rain?,
     @Json(name = "sys")
     val sys: Sys,
     @Json(name = "visibility")
