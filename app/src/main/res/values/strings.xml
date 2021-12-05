@@ -8,4 +8,6 @@
     <string name="feelstemp_example">Feels like 10*C</string>
     <string name="weather_desc_example">light rain</string>
     <string name="weather_icon">weather_icon</string>
+    <string name="enter_city">Enter City</string>
+    <string name="get_forecast">Get Forecast</string>
 </resources>

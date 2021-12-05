@@ -8,17 +8,23 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.weatherapp.R
+import com.example.weatherapp.model.CityForecast
 import com.example.weatherapp.model.Forecast
 import com.squareup.picasso.Picasso
+import java.text.DateFormat
+import java.time.LocalDate
+import java.time.format.DateTimeFormatter
 
 class ForecastAdapter(
-    private val forecastList:MutableList<Forecast> = mutableListOf()
+    private val forecastList:MutableList<Forecast>,
+    private var city : String
 ) : RecyclerView.Adapter<ForecastViewHolder>(){
 
-    fun updateForecast(newForecast: List<Forecast>){
+    fun updateForecast(cityForecast: CityForecast){
         //Remove previous list, e.g enter atlanta, hit back, enter orlando orlando list will still have atl if we don't clear
         forecastList.clear()
-        forecastList.addAll(newForecast)
+        city = cityForecast.city.name
+        forecastList.addAll(cityForecast.list)
         notifyDataSetChanged()
     }
 
@@ -33,12 +39,12 @@ class ForecastAdapter(
 
     override fun onBindViewHolder(holder: ForecastViewHolder, position: Int) {
         val forecast = forecastList[position]
-        holder.forecastCity.text = "Atlanta"
-        holder.forecastTemp.text = forecast.main.temp.toString()
-        holder.forecastMinTemp.text = forecast.main.tempMin.toString()
-        holder.forecastMaxTemp.text = forecast.main.tempMax.toString()
-        holder.forecastFeelsTemp.text = feelsApend+forecast.main.feelsLike.toString()
-        holder.forecastDateTime.text = forecast.dtTxt
+        holder.forecastCity.text = city
+        holder.forecastTemp.text = convertKelToCelsiusString(forecast.main.temp)
+        holder.forecastMinTemp.text = convertKelToCelsiusString(forecast.main.tempMin)
+        holder.forecastMaxTemp.text = convertKelToCelsiusString(forecast.main.tempMax)
+        holder.forecastFeelsTemp.text = feelsApend+convertKelToCelsiusString(forecast.main.feelsLike)
+        holder.forecastDateTime.text = forecast.dtTxt.format(formatter)
         holder.forecastWeatherDesc.text = forecast.weather[primaryWeather].description
         getWeatherIcon(forecast.weather[primaryWeather].icon,holder.forecastWeatherIcon)
         //holder.forecastWeatherIcon.setImageBitmap(forecast.weather[weatherIcon].toString())
@@ -46,21 +52,39 @@ class ForecastAdapter(
 
     override fun getItemCount(): Int = forecastList.size
 
-    fun getWeatherIcon(path:String, weather: ImageView){
+    private fun convertKelToCelsiusString(temp: Double):String{
+        return (String.format("%.1f",temp - celsius).toDouble()).toString()
+    }
+
+    private fun dateFormat(date:Int):String{
+        val formatter = DateTimeFormatter.ofPattern("d MMM h:ma")
+        val timestamp = date.toLong()
+        val timestampAsDateString = java.time.format.DateTimeFormatter.ISO_INSTANT
+            .format(java.time.Instant.ofEpochSecond(timestamp))
+        val date = LocalDate.parse(timestampAsDateString,formatter)
+        Log.d("DATES",date.toString())
+        return date.toString()
+    }
+
+    private fun getWeatherIcon(path:String, weather: ImageView){
         Log.d("WEATHICON",path)
         Picasso
             .get()
-            .load(IMAGE_URL+path+ IMAGE_URL_APPEND)
+            .load(IMAGE_URL+path+ IMAGE_URL_APPEND_x2)
             .resize(250,250)
             //.centerCrop()
             .into(weather)
     }
 
     companion object{
+        val formatter = DateTimeFormatter.ofPattern("d MMM h:ma")
         private const val IMAGE_URL = "http://openweathermap.org/img/wn/"
-        private const val IMAGE_URL_APPEND = "@2x.png"
-        private val feelsApend:String = "Feels like "
-        private val primaryWeather : Int = 0
+        private const val IMAGE_URL_APPEND = ".png"
+        private const val IMAGE_URL_APPEND_x2 = "@2x.png"
+        private const val IMAGE_URL_APPEND_x4 = "@4x.png"
+        private const val feelsApend:String = "Feels like "
+        private const val primaryWeather : Int = 0
+        private const val celsius:Double = 273.15
     }
 }
 class ForecastViewHolder(itemView:View): RecyclerView.ViewHolder(itemView){
