@@ -1,5 +1,6 @@
 package com.example.weatherapp.adapter
 
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -8,6 +9,7 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.weatherapp.R
 import com.example.weatherapp.model.Forecast
+import com.squareup.picasso.Picasso
 
 class ForecastAdapter(
     private val forecastList:MutableList<Forecast> = mutableListOf()
@@ -35,19 +37,30 @@ class ForecastAdapter(
         holder.forecastTemp.text = forecast.main.temp.toString()
         holder.forecastMinTemp.text = forecast.main.tempMin.toString()
         holder.forecastMaxTemp.text = forecast.main.tempMax.toString()
-        holder.forecastFeelsTemp.text = forecast.main.feelsLike.toString()
+        holder.forecastFeelsTemp.text = feelsApend+forecast.main.feelsLike.toString()
         holder.forecastDateTime.text = forecast.dtTxt
-        holder.forecastWeatherDesc.text = forecast.weather[weatherDesc].toString()
+        holder.forecastWeatherDesc.text = forecast.weather[primaryWeather].description
+        getWeatherIcon(forecast.weather[primaryWeather].icon,holder.forecastWeatherIcon)
         //holder.forecastWeatherIcon.setImageBitmap(forecast.weather[weatherIcon].toString())
     }
 
     override fun getItemCount(): Int = forecastList.size
 
+    fun getWeatherIcon(path:String, weather: ImageView){
+        Log.d("WEATHICON",path)
+        Picasso
+            .get()
+            .load(IMAGE_URL+path+ IMAGE_URL_APPEND)
+            .resize(250,250)
+            //.centerCrop()
+            .into(weather)
+    }
+
     companion object{
-        private val weatherDesc : Int = 0
-        private val weatherIcon : Int = 1
-        private val weatherId : Int = 2
-        private val weatherMain : Int = 3
+        private const val IMAGE_URL = "http://openweathermap.org/img/wn/"
+        private const val IMAGE_URL_APPEND = "@2x.png"
+        private val feelsApend:String = "Feels like "
+        private val primaryWeather : Int = 0
     }
 }
 class ForecastViewHolder(itemView:View): RecyclerView.ViewHolder(itemView){
@@ -58,5 +71,5 @@ class ForecastViewHolder(itemView:View): RecyclerView.ViewHolder(itemView){
     val forecastFeelsTemp : TextView = itemView.findViewById(R.id.forecast_feelstemp)
     val forecastDateTime : TextView = itemView.findViewById(R.id.forecast_datetime)
     val forecastWeatherDesc : TextView = itemView.findViewById(R.id.weather_description)
-    //val forecastWeatherIcon : ImageView = itemView.findViewById(R.id.weather_icon)
+    val forecastWeatherIcon : ImageView = itemView.findViewById(R.id.weather_icon)
 }
