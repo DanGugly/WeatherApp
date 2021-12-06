@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/forecast_navigation"
+    app:startDestination="@id/citySearchFragment">
+
+    <fragment
+        android:id="@+id/citySearchFragment"
+        android:name="com.example.weatherapp.ui.CityFragment"
+        android:label="Search City">
+        <action
+            android:id="@+id/citySearchFragmentAction"/>
+    </fragment>
+
+</navigation>
