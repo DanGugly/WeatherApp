@@ -20,6 +20,13 @@ interface NetworkApi {
     ):Single<CityForecast>
     //): Completable
     //Completable represent Observable that emits no value, but only terminal events, either onError or onCompleted'
+    //Observable : emitting data continuously() with constant updates from API
+    //Flowable : same as observable but will handle backpressure(Where data generated faster than it can be processed)
+    //Maybe: will return the tpe of data and also a completable action(onSuccess, onError, onComplete)
+    // combination between Single and Completable
+
+    //cold observable : Data will be emitted within the observable instantiation
+    //hot observable : produce data outside observable, so when observed you already have data that will be emitted
 
     companion object{
         //Set API Key

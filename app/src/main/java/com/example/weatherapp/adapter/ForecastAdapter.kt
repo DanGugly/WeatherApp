@@ -53,7 +53,7 @@ class ForecastAdapter(
     override fun getItemCount(): Int = forecastList.size
 
     private fun convertKelToCelsiusString(temp: Double):String{
-        return (String.format("%.1f",temp - celsius).toDouble()).toString()
+        return (String.format("%.1f",temp - celsius).toDouble()).toString()+ TEMP_UNIT
     }
 
     private fun dateFormat(date:Int):String{
@@ -79,7 +79,7 @@ class ForecastAdapter(
     companion object{
         val formatter = DateTimeFormatter.ofPattern("d MMM h:ma")
         private const val IMAGE_URL = "http://openweathermap.org/img/wn/"
-        private const val IMAGE_URL_APPEND = ".png"
+        private const val TEMP_UNIT = "°C"
         private const val IMAGE_URL_APPEND_x2 = "@2x.png"
         private const val IMAGE_URL_APPEND_x4 = "@4x.png"
         private const val feelsApend:String = "Feels like "
