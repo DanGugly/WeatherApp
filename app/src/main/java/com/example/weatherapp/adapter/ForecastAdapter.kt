@@ -16,8 +16,10 @@ import java.time.LocalDate
 import java.time.format.DateTimeFormatter
 
 class ForecastAdapter(
-    private val forecastList:MutableList<Forecast>,
-    private var city : String
+    private val forecastDetailsClick: ForecastDetailsClick,
+    private var city : String?,
+    private val forecastList:MutableList<Forecast> = mutableListOf()
+
 ) : RecyclerView.Adapter<ForecastViewHolder>(){
 
     fun updateForecast(cityForecast: CityForecast){
@@ -48,6 +50,9 @@ class ForecastAdapter(
         holder.forecastWeatherDesc.text = forecast.weather[primaryWeather].description
         getWeatherIcon(forecast.weather[primaryWeather].icon,holder.forecastWeatherIcon)
         //holder.forecastWeatherIcon.setImageBitmap(forecast.weather[weatherIcon].toString())
+        holder.itemView.setOnClickListener {
+            city?.let { it1 -> forecastDetailsClick.moveToForecastDetails(it1,forecast) }
+        }
     }
 
     override fun getItemCount(): Int = forecastList.size

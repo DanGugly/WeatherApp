@@ -1,33 +1,39 @@
 package com.example.weatherapp.ui
 
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
+import androidx.navigation.fragment.findNavController
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.weatherapp.R
+import com.example.weatherapp.adapter.ForecastAdapter
+import com.example.weatherapp.adapter.ForecastDetailsClick
+import com.example.weatherapp.databinding.FragmentCityForecastBinding
+import com.example.weatherapp.model.CityForecast
+import com.example.weatherapp.model.Forecast
+import com.example.weatherapp.rest.Retrofit
+import io.reactivex.android.schedulers.AndroidSchedulers
+import io.reactivex.schedulers.Schedulers
 
-// TODO: Rename parameter arguments, choose names that match
-// the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-private const val ARG_PARAM1 = "param1"
-private const val ARG_PARAM2 = "param2"
 
-/**
- * A simple [Fragment] subclass.
- * Use the [CityForecast.newInstance] factory method to
- * create an instance of this fragment.
- */
-class CityForecast : Fragment() {
-    // TODO: Rename and change types of parameters
-    private var param1: String? = null
-    private var param2: String? = null
+class CityForecastFragment : Fragment(),ForecastDetailsClick {
+    // this variable is for view binding
+    private lateinit var binding: FragmentCityForecastBinding
+    // variable to get the city
+    private var cityData: String? = null
+
+    private lateinit var forecastAdapter: ForecastAdapter
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         arguments?.let {
-            param1 = it.getString(ARG_PARAM1)
-            param2 = it.getString(ARG_PARAM2)
+
         }
+        forecastAdapter = ForecastAdapter(this,cityData)
     }
 
     override fun onCreateView(
@@ -35,26 +41,52 @@ class CityForecast : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_city_forecast, container, false)
+        binding = FragmentCityForecastBinding.inflate(inflater, container, false)
+        cityData = arguments?.getString(CITY_NAME)
+
+        // here I am setting my recycler view
+        binding.forecastRecycler.apply {
+            // adding the layout manager
+            layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false)
+            // setting the adapter
+            adapter = forecastAdapter
+        }
+        return binding.root
+    }
+
+    override fun onResume() {
+        super.onResume()
+        cityData?.let {
+            Retrofit.getNetworkApi().getForecast(it)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(
+                    { forecast -> handleSuccess(forecast) },
+                    { throwable -> handleError(throwable) }
+                )
+        } ?: Toast.makeText(requireContext(), "Please enter a valid city", Toast.LENGTH_LONG).show()
+    }
+    private fun handleError(error: Throwable) {
+        Log.d("NetErr", error.localizedMessage)
+        Toast.makeText(requireContext(), error.localizedMessage, Toast.LENGTH_LONG).show()
+    }
+
+    private fun handleSuccess(forecast: CityForecast) {
+        Toast.makeText(requireContext(), forecast.city.name, Toast.LENGTH_LONG).show()
+        forecastAdapter.updateForecast(forecast)
     }
 
     companion object {
-        /**
-         * Use this factory method to create a new instance of
-         * this fragment using the provided parameters.
-         *
-         * @param param1 Parameter 1.
-         * @param param2 Parameter 2.
-         * @return A new instance of fragment CityForecast.
-         */
-        // TODO: Rename and change types and number of parameters
+
         @JvmStatic
-        fun newInstance(param1: String, param2: String) =
-            CityForecast().apply {
+        fun newInstance() =
+            CityForecastFragment().apply {
                 arguments = Bundle().apply {
-                    putString(ARG_PARAM1, param1)
-                    putString(ARG_PARAM2, param2)
+
                 }
             }
+    }
+    override fun moveToForecastDetails(cityName: String, forecast: Forecast) {
+        findNavController().navigate(R.id.ForecastDetailsFragment)
     }
 }

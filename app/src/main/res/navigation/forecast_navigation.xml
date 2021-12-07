@@ -2,14 +2,29 @@
 <navigation xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/forecast_navigation"
-    app:startDestination="@id/citySearchFragment">
+    app:startDestination="@id/CitySearchFragment">
 
     <fragment
-        android:id="@+id/citySearchFragment"
+        android:id="@+id/CitySearchFragment"
         android:name="com.example.weatherapp.ui.CityFragment"
         android:label="Search City">
         <action
-            android:id="@+id/citySearchFragmentAction"/>
+            android:id="@+id/action_CitySearchFragment_to_CityForecastFragment"
+            app:destination="@id/CityForecastFragment" />
     </fragment>
+
+    <fragment
+        android:id="@+id/CityForecastFragment"
+        android:label="City forecast"
+        android:name="com.example.weatherapp.ui.CityForecastFragment">
+        <action
+            android:id="@+id/action_CityForecastFragment_to_ForecastDetailsFragment"
+            app:destination="@id/ForecastDetailsFragment" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/ForecastDetailsFragment"
+        android:label="Forecast details"
+        android:name="com.example.weatherapp.ui.ForecastDetails"/>
 
 </navigation>

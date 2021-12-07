@@ -1,5 +1,9 @@
+
 package com.example.weatherapp
 
+import androidx.appcompat.app.AppCompatActivity
+
+/*  Below is code app using intents
 import android.content.Context
 import android.net.ConnectivityManager
 import androidx.appcompat.app.AppCompatActivity
@@ -14,8 +18,9 @@ import com.example.weatherapp.databinding.ActivityMainBinding
 import com.example.weatherapp.model.CityForecast
 import com.example.weatherapp.rest.Retrofit
 import io.reactivex.android.schedulers.AndroidSchedulers
-import io.reactivex.schedulers.Schedulers
-
+import io.reactivex.schedulers.Schedulers */
+class ForecastActivity :AppCompatActivity()
+/*
 class ForecastActivity : AppCompatActivity() {
     private lateinit var binding: ActivityForecastBinding
     private lateinit var forecastAdapter: ForecastAdapter
@@ -76,4 +81,4 @@ class ForecastActivity : AppCompatActivity() {
     private fun handleSuccess(forecast: CityForecast) {
         Toast.makeText(baseContext, forecast.city.name, Toast.LENGTH_LONG).show()
     }
-}
+} */
