@@ -13,6 +13,7 @@ import com.example.weatherapp.model.Forecast
 import com.squareup.picasso.Picasso
 import java.text.DateFormat
 import java.time.LocalDate
+import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
 
 class ForecastAdapter(
@@ -46,7 +47,7 @@ class ForecastAdapter(
         holder.forecastMinTemp.text = convertKelToCelsiusString(forecast.main.tempMin)
         holder.forecastMaxTemp.text = convertKelToCelsiusString(forecast.main.tempMax)
         holder.forecastFeelsTemp.text = feelsApend+convertKelToCelsiusString(forecast.main.feelsLike)
-        holder.forecastDateTime.text = forecast.dtTxt.format(formatter)
+        holder.forecastDateTime.text = dateFormat(forecast.dtTxt)
         holder.forecastWeatherDesc.text = forecast.weather[primaryWeather].description
         getWeatherIcon(forecast.weather[primaryWeather].icon,holder.forecastWeatherIcon)
         //holder.forecastWeatherIcon.setImageBitmap(forecast.weather[weatherIcon].toString())
@@ -61,14 +62,11 @@ class ForecastAdapter(
         return (String.format("%.1f",temp - celsius).toDouble()).toString()+ TEMP_UNIT
     }
 
-    private fun dateFormat(date:Int):String{
-        val formatter = DateTimeFormatter.ofPattern("d MMM h:ma")
-        val timestamp = date.toLong()
-        val timestampAsDateString = java.time.format.DateTimeFormatter.ISO_INSTANT
-            .format(java.time.Instant.ofEpochSecond(timestamp))
-        val date = LocalDate.parse(timestampAsDateString,formatter)
-        Log.d("DATES",date.toString())
-        return date.toString()
+    private fun dateFormat(date:String):String{
+        val formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")
+        val formatterOut = DateTimeFormatter.ofPattern("d MMM H:ma")
+        val dateFinal = LocalDateTime.parse(date,formatter)
+        return dateFinal.format(formatterOut)
     }
 
     private fun getWeatherIcon(path:String, weather: ImageView){
