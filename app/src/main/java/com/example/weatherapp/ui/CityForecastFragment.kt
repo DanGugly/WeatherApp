@@ -55,17 +55,26 @@ class CityForecastFragment : Fragment(),ForecastDetailsClick {
         return binding.root
     }
 
+    override fun onDetach() {
+        super.onDetach()
+        dataLoaded = false
+    }
+
     override fun onResume() {
         super.onResume()
-        cityData?.let {
-            Retrofit.getNetworkApi().getForecast(it)
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(
-                    { forecast -> handleSuccess(forecast) },
-                    { throwable -> handleError(throwable) }
-                )
-        } ?: Toast.makeText(requireContext(), "Please enter a valid city", Toast.LENGTH_LONG).show()
+        //When hitting back from ForecastDetails data is fetched from API again for same city wasting resources
+        if (!dataLoaded){
+            cityData?.let {
+                Retrofit.getNetworkApi().getForecast(it)
+                    .subscribeOn(Schedulers.io())
+                    .observeOn(AndroidSchedulers.mainThread())
+                    .subscribe(
+                        { forecast -> handleSuccess(forecast) },
+                        { throwable -> handleError(throwable) }
+                    )
+            } ?: Toast.makeText(requireContext(), "Please enter a valid city", Toast.LENGTH_LONG).show()
+        }
+
     }
     private fun handleError(error: Throwable) {
         Log.d("NetErr", error.localizedMessage)
@@ -74,11 +83,12 @@ class CityForecastFragment : Fragment(),ForecastDetailsClick {
 
     private fun handleSuccess(forecast: CityForecast) {
         Toast.makeText(requireContext(), forecast.city.name, Toast.LENGTH_LONG).show()
+        dataLoaded = true
         forecastAdapter.updateForecast(forecast)
     }
 
     companion object {
-        const val FORECAST_BUNDLE = "FORECAST_BUNDLE"
+        private var dataLoaded : Boolean = false
 
         @JvmStatic
         fun newInstance() =

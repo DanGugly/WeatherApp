@@ -6,8 +6,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.example.weatherapp.databinding.FragmentForecastDetailsBinding
-import com.example.weatherapp.model.Forecast
-import com.example.weatherapp.ui.CityForecastFragment.Companion.FORECAST_BUNDLE
 
 class ForecastDetails : Fragment() {
     private lateinit var binding: FragmentForecastDetailsBinding
