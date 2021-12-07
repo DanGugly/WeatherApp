@@ -96,7 +96,8 @@ class CityForecastFragment : Fragment(),ForecastDetailsClick {
             "DATE" to forecast.dtTxt,
             "WIND_SPEED" to forecast.wind.speed.toString(),
                 "HUMIDITY" to forecast.main.humidity.toString(),
-                "PRESSURE" to forecast.main.humidity.toString()
+                "PRESSURE" to forecast.main.humidity.toString(),
+                "DESCRIPTION" to forecast.weather[0].description
             )
         )
     }

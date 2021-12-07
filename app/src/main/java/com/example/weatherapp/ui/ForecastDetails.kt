@@ -15,6 +15,7 @@ class ForecastDetails : Fragment() {
     private lateinit var wind_speed:String
     private lateinit var humidity:String
     private lateinit var pressure:String
+    private lateinit var description:String
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -25,6 +26,7 @@ class ForecastDetails : Fragment() {
         humidity = arguments?.getString("HUMIDITY").toString()
         wind_speed = arguments?.getString("WIND_SPEED").toString()
         pressure = arguments?.getString("PRESSURE").toString()
+        description = arguments?.getString("DESCRIPTION").toString()
     }
 
     override fun onCreateView(
@@ -36,6 +38,7 @@ class ForecastDetails : Fragment() {
         binding.humidity.text = humidity
         binding.windSpeed.text = wind_speed
         binding.pressure.text = pressure
+        binding.description.text = description
         // Inflate the layout for this fragment
         return binding.root
     }
