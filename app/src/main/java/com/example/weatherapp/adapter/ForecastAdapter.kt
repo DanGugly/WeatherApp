@@ -64,7 +64,7 @@ class ForecastAdapter(
 
     private fun dateFormat(date:String):String{
         val formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")
-        val formatterOut = DateTimeFormatter.ofPattern("d MMM H:ma")
+        val formatterOut = DateTimeFormatter.ofPattern("d MMM ha")
         val dateFinal = LocalDateTime.parse(date,formatter)
         return dateFinal.format(formatterOut)
     }

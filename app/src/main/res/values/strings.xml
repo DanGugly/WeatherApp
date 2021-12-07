@@ -4,7 +4,7 @@
     <string name="example_temp">16*C</string>
     <string name="mintemp_example">-1*C</string>
     <string name="maxtemp_example">22*C</string>
-    <string name="date_example">16th Nov 8pm</string>
+    <string name="date_example">7 Dec 6AM</string>
     <string name="feelstemp_example">Feels like 10*C</string>
     <string name="weather_desc_example">light rain</string>
     <string name="weather_icon">weather_icon</string>

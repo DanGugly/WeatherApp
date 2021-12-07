@@ -5,7 +5,7 @@
       <map>
         <entry key="app/src/main/res/layout/activity_forecast.xml" value="0.26992753623188404" />
         <entry key="app/src/main/res/layout/activity_main.xml" value="0.26992753623188404" />
-        <entry key="app/src/main/res/layout/forecast_items.xml" value="0.5" />
+        <entry key="app/src/main/res/layout/forecast_items.xml" value="0.32038834951456313" />
         <entry key="app/src/main/res/layout/fragment_city.xml" value="0.25679347826086957" />
         <entry key="app/src/main/res/layout/fragment_city_forecast.xml" value="0.25679347826086957" />
         <entry key="app/src/main/res/layout/fragment_forecast_details.xml" value="0.25226449275362317" />
