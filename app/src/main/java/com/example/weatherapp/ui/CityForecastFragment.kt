@@ -7,6 +7,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.core.os.bundleOf
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.weatherapp.R
@@ -77,6 +78,7 @@ class CityForecastFragment : Fragment(),ForecastDetailsClick {
     }
 
     companion object {
+        const val FORECAST_BUNDLE = "FORECAST_BUNDLE"
 
         @JvmStatic
         fun newInstance() =
@@ -87,6 +89,15 @@ class CityForecastFragment : Fragment(),ForecastDetailsClick {
             }
     }
     override fun moveToForecastDetails(cityName: String, forecast: Forecast) {
-        findNavController().navigate(R.id.ForecastDetailsFragment)
+        findNavController().navigate(
+            R.id.ForecastDetailsFragment,
+            bundleOf(
+                //FORECAST_BUNDLE to forecast
+            "DATE" to forecast.dtTxt,
+            "WIND_SPEED" to forecast.wind.speed.toString(),
+                "HUMIDITY" to forecast.main.humidity.toString(),
+                "PRESSURE" to forecast.main.humidity.toString()
+            )
+        )
     }
 }
